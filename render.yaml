@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: journey-of-motherhood
+    runtime: python
+    plan: free
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn Social.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: DJANGO_SETTINGS_MODULE
+        value: "Social.settings"
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: journey-of-motherhood-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: "journey-of-motherhood.onrender.com,localhost,127.0.0.1"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://journey-of-motherhood.onrender.com,https://journey-of-motherhood.vercel.app,https://www.journeyofmotherhood.org,http://localhost:3000"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://journey-of-motherhood.vercel.app,https://www.journeyofmotherhood.org,http://localhost:3000,http://127.0.0.1:8000"
+databases:
+  - name: journey-of-motherhood-db
+    databaseName: journeyofmotherhood
+    user: journeyofmotherhood

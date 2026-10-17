@@ -42,11 +42,10 @@ http://127.0.0.1:8000/posts/redoc/
 
 ## Deploying to Render
 1. Push the project to a GitHub repository.
-2. Create a new Render Web Service from that repository.
-3. Set the runtime to Python and use the included `render.yaml` configuration.
-4. Add the environment variables from `.env.example` in the Render dashboard, replacing default values with your credentials.
-5. Create a Render Postgres database and connect it to the service; Render will populate `DATABASE_URL` automatically.
-6. Deploy the service. The app will run with Gunicorn and collect static files during the build step.
+2. In Render, choose **New > Blueprint** and connect the repository's `master` branch. The Blueprint reads `render.yaml` to configure the web service and Postgres database.
+3. Review and apply the Blueprint. Render generates `SECRET_KEY` and connects the database through `DATABASE_URL`.
+4. Add email-provider environment variables in the Render dashboard if the app needs to send email.
+5. Deploy. The service starts with Gunicorn; the build script installs dependencies, collects static files, and runs migrations.
 
 Example Render environment variables:
 ```
